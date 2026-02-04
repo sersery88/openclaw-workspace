@@ -74,7 +74,7 @@ _Last updated: 2026-02-04_
 - **Status:** ✅ Eingerichtet & funktioniert
 
 ### OpenClaw Setup
-- **Host:** srv1304306
+- **Host:** srv1304256
 - **Workspace:** /root/.openclaw/workspace
 - **Gateway:** Port 18789 (loopback)
 - **Model:** openrouter/moonshotai/kimi-k2.5
@@ -88,6 +88,16 @@ _Last updated: 2026-02-04_
 - GitHub-Repo für Workspace ist Pflicht für Persistenz
 - Pairing-Mode in Telegram braucht korrekte Config + Restart
 
+### ⚠️ 2026-02-04 - KRITISCHER OpenClaw Bug
+**Problem:** OpenClaw Deinstallation löscht `/root/clawd/` komplett - inklusive ALLER Projekte!
+**Auswirkung:** Hotel IBE, Flight IBE und andere Projekte wurden gelöscht
+**Lösung:** 
+- Projekte NIEMALS in `/root/clawd/` speichern!
+- Stattdessen: `/root/projects/` oder `/var/www/` verwenden
+- Oder: Git-Workflow mit sofortigem Push nach jedem Commit
+
+**Status:** Aktuell wird `pinktravel-hotel-ibe` neu geklont und aufgesetzt
+
 ---
 
 ## ToDo / Ideas
@@ -95,3 +105,4 @@ _Last updated: 2026-02-04_
 - [ ] Regelmäßige Git-Commits automatisieren?
 - [ ] Skill für Context7 Recherche nutzen
 - [ ] Hotel IBE & Flight IBE Architektur dokumentieren
+- [ ] Projekt-Struktur umziehen nach `/root/projects/` (NICHT in `/root/clawd/`!)
