@@ -4,6 +4,38 @@
     "context7": {
       "version": "1.0.3",
       "installedAt": 1770203480986
+    },
+    "shadcn-ui": {
+      "version": "1.0.0",
+      "installedAt": 1770280967818
+    },
+    "nextjs-expert": {
+      "version": "1.0.0",
+      "installedAt": 1770282631312
+    },
+    "react-expert": {
+      "version": "0.1.0",
+      "installedAt": 1770282633638
+    },
+    "docker-essentials": {
+      "version": "1.0.0",
+      "installedAt": 1770282635228
+    },
+    "docker-compose-gen": {
+      "version": "1.0.1",
+      "installedAt": 1770282637232
+    },
+    "ai-dockerfile": {
+      "version": "1.0.1",
+      "installedAt": 1770282638424
+    },
+    "nginx-config-gen": {
+      "version": "1.0.1",
+      "installedAt": 1770282640337
+    },
+    "next-config-gen": {
+      "version": "1.0.1",
+      "installedAt": 1770282642608
     }
   }
 }
