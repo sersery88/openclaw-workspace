@@ -234,6 +234,15 @@ https://context7.com/api/v1/<id>?tokens=10000&topic=<topic>
 - [ ] ETG booking API integration
 - [ ] hotels_en city fix script (PID 463127)
 
+### ⚠️ Blocked - RateHawk Klärung erforderlich
+- **Saferpay + RateHawk Kompatibilität**
+  - Problem: RateHawk Portal hat nur Kreditkartenzahlung aktiviert → verlangt echte Kartendaten
+  - Saferpay tokenisiert Karten (PCI-DSS) → wir bekommen keine echten Kartendaten
+  - Bedarf: TWINT + Reka über Saferpay (ETG/RateHawk bietet das nicht)
+  - Fehler bei Buchung: `not_enough_credit_card_data`
+  - **Action:** Mit RateHawk klären ob prepaid/instant ohne Kartendaten möglich ist
+  - Kontakt: ETG Account Manager
+
 ### 🔜 Offen (Nice-to-have)
 - [ ] Cron für ETG Dumps (daily incremental, weekly full)
 - [ ] Hotel IBE & Flight IBE Architektur dokumentieren
@@ -278,6 +287,33 @@ https://context7.com/api/v1/<id>?tokens=10000&topic=<topic>
 - **`from_fn_with_state` funktioniert nicht** mit nested Routers ohne State
 - Workaround: Extension Layer oder direktes Routing
 - Besser: `tower-governor` für Rate-Limiting (TODO)
+
+### 2026-02-06 - Subagenten Limit
+- **5+ Subagenten okay, aber SEQUENTIELL** — nicht parallel!
+- Bei parallelen Spawns: tool_use_id Mismatch Errors, LLM Requests werden rejected
+- Message-Stack gerät durcheinander wenn zu viele parallele Tool-Calls laufen
+- **Richtig:** Einen starten, warten bis fertig, dann nächsten
+
+### 2026-02-06 - Next.js Link Hydration Bug
+- **`<Link>` kann Doppelklick-Problem verursachen** bei Client-Side Navigation
+- Symptom: URL ändert sich, aber Seite lädt nicht beim ersten Klick
+- Workaround: `<a href>` statt `<Link>` für Full Page Reload
+- Ursache: React Hydration Mismatch mit Schema.org JSON-LD Scripts
+- Fix: `'use client'` von StructuredData.tsx entfernen (Server Component)
+
+### 2026-02-06 - PM2 für Frontend
+- **PM2 verwaltet hotel-frontend** — nicht manuell mit nohup starten!
+- `pm2 restart hotel-frontend` nach Builds
+- `pm2 list` zum Checken
+- `pm2 save` für Persistenz nach Änderungen
+
+### 2026-02-06 - SEO/GEO/AEO/GAIO implementiert
+- **llms.txt** für AI-Crawler (GPTBot, ClaudeBot, PerplexityBot)
+- **175 URLs in Sitemap** (80+ Städte, hreflang)
+- **30 Destination Landing Pages** (/destination/[city])
+- **34 FAQ-Fragen** (5 Kategorien, Voice Search optimiert)
+- **Schema.org:** Speakable, LocalBusiness, TravelAction, Review
+- **CSP:** Saferpay in frame-src + connect-src
 
 ### 2026-02-06 - Next.js Build Corruption
 - **"Client reference manifest does not exist"** → `.next` löschen, neu bauen
