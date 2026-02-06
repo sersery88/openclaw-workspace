@@ -211,42 +211,21 @@ https://context7.com/api/v1/<id>?tokens=10000&topic=<topic>
 
 ## ToDo / Ideas
 
-- [x] ~~ETG Pipeline fertig~~ ✅ Beide Sprachen indexiert (3.298M each), alle Felder + Guest Ratings
-- [x] ~~Re-Indexation mit allen fehlenden Feldern~~ ✅ description_struct, contact, amenity_groups, images_ext, kind, facts, geo_point
-- [ ] Force Merge abschließen (hotels_de + hotels_en — einzeln!)
-- [ ] Backend: Neue Felder in API-Responses einbauen (description_struct, contact, amenity_groups, images_ext, kind)
-- [ ] Frontend: Neue Felder nutzen (Descriptions aus Index statt ETG API-Fallback)
-- [ ] Sprachverwirrung Hotelpage fixen (RateHawk API Language-Parameter)
-- [ ] Systematischer E2E Sprach-Check über gesamte IBE
-- [ ] Cron für tägliche ETG incremental + wöchentliche full Dumps
-- [ ] Regelmäßige Git-Commits automatisieren
+### ✅ Erledigt (2026-02-05)
+- [x] ETG Pipeline — Beide Sprachen indexiert (3.298M each), alle Felder + Guest Ratings
+- [x] Re-Indexation mit allen Feldern (description_struct, contact, amenity_groups, images_ext, kind, facts, geo_point)
+- [x] Force Merge (hotels_de + hotels_en)
+- [x] Backend: Neue Felder in API-Responses
+- [x] Frontend: Descriptions aus Index
+- [x] Security: UFW + fail2ban + SSH Hardening
+- [x] ETG API Compliance Fixes (9 Tasks) — Structs typisiert, Validierungen, Hash-Fixes, Deprecated-Annotations
+
+### 🔜 Offen (Nice-to-have)
+- [ ] Cron für ETG Dumps (daily incremental, weekly full)
 - [ ] Hotel IBE & Flight IBE Architektur dokumentieren
 - [ ] Custom Skills: Lynis, Snyk, Rust, Gin, OpenSearch
-- [ ] Flight-frontend Container (165 Restarts) untersuchen
 - [ ] Brotli Compression für Nginx
 - [ ] PostgreSQL 16→17 Upgrade
-- [ ] OpenSearch JVM Tuning (bei Bedarf)
-- [x] ~~`pois` Index entfernen~~ → Chef will POIs + Reviews behalten (2026-02-05)
-
-### ETG API Fixes (2026-02-06) — ~2-3h Aufwand
-Aus 8 API-Analysen konsolidiert:
-
-**🔴 Hoch (B2C-Compliance):**
-- [ ] 5 Structs typisieren statt `serde_json::Value`: `Deposit`, `NoShowPenalty`, `SellPriceLimits`, `BarRatePriceData`, `Perks`
-- [ ] `recommended_price` von `Option<String>` zu typisierten Object ändern
-- [ ] `room_name_info` von `Option<String>` zu `Option<serde_json::Value>` ändern
-
-**🟡 Mittel:**
-- [ ] `get_hash()` Fallback fixen: `search_hash` statt `match_hash` für Booking
-- [ ] Validierungen hinzufügen: Geo-radius (1-70000), Datum (max 730d checkin, 30d stay), region_id > 0
-- [ ] Region `id` Typ: `i32` → `String` (ETG liefert String)
-
-**🟢 Niedrig:**
-- [ ] `only_eclc` Duplikat entfernen (nur in UpsellsConfig behalten)
-- [ ] `#[deprecated]` Annotationen: `meal`, `vat_data.value`, `hotels[].id`
-- [ ] Hash-Lifetime Konstanten definieren (search_hash=1h, book_hash=24h/6h)
-- [x] ~~Security: UFW + fail2ban + SSH Hardening~~ ✅ Done
-- [x] ~~Skill für Context7 Recherche~~ → Context7 Docs in MEMORY.md
 - [x] ~~Projekt-Struktur umziehen~~ → `/root/ETG-Hotel-IBE/`
 
 ### 2026-02-05 (Abend) - Geo & Frontend Bugs
