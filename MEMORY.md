@@ -220,6 +220,20 @@ https://context7.com/api/v1/<id>?tokens=10000&topic=<topic>
 - [x] Security: UFW + fail2ban + SSH Hardening
 - [x] ETG API Compliance Fixes (9 Tasks) — Structs typisiert, Validierungen, Hash-Fixes, Deprecated-Annotations
 
+### ✅ Erledigt (2026-02-06)
+- [x] Multi-Geo Search für große Städte (Istanbul 1700+ statt 500)
+- [x] Saferpay PaymentMethods Fix (top-level array)
+- [x] hotelpink.ch live deployment + UX polish
+- [x] Legal pages (AGB, Impressum, Datenschutz)
+- [x] Booking page i18n + UX polish
+- [x] Rust backend search optimization (168ms bulk)
+- [x] City fix script (hotels_de: 1.5M fixed)
+
+### 🔄 In Progress
+- [ ] Payment flow fix (token storage mismatch)
+- [ ] ETG booking API integration
+- [ ] hotels_en city fix script (PID 463127)
+
 ### 🔜 Offen (Nice-to-have)
 - [ ] Cron für ETG Dumps (daily incremental, weekly full)
 - [ ] Hotel IBE & Flight IBE Architektur dokumentieren
@@ -227,6 +241,7 @@ https://context7.com/api/v1/<id>?tokens=10000&topic=<topic>
 - [ ] Brotli Compression für Nginx
 - [ ] PostgreSQL 16→17 Upgrade
 - [x] ~~Projekt-Struktur umziehen~~ → `/root/ETG-Hotel-IBE/`
+- [ ] Settings page redesign
 
 ### 2026-02-05 (Abend) - Geo & Frontend Bugs
 - **geo_point Queries:** Range-Queries auf `location.lat`/`location.lon` funktionieren NICHT mit geo_point Mapping → `geo_bounding_box` oder `geo_distance` verwenden!
@@ -236,3 +251,15 @@ https://context7.com/api/v1/<id>?tokens=10000&topic=<topic>
 - **KRITISCH:** Projekt liegt in `/root/ETG-Hotel-IBE/`, NICHT in `/root/.openclaw/workspace/`!
 - **ES Module TDZ:** Variable declarations müssen NACH allen imports kommen, nie dazwischen
 - **Minified Dependency Bugs:** Errors wie `Cannot access 'eq' before initialization` können aus npm packages kommen, nicht eigenem Code — Source Maps oder Dependency-Audit nötig
+
+### 2026-02-06 - Saferpay & Payment Flow
+- **PaymentMethods als TOP-LEVEL ARRAY:** Saferpay erwartet `PaymentMethods: []` NICHT nested in `Options.PaymentMethods.Allow`
+- **Wallets separat:** ApplePay/GooglePay als eigenes `Wallets: []` Array
+- **Token Storage Konsistenz:** `pendingBooking.paymentToken` muss überall gleich heißen
+- **pendingBooking braucht ALLE Daten:** `bookingRooms`, `selectedPayment`, `formData`, `hotel`, `rate`, `searchParams`, `prebookData`
+
+### 2026-02-06 - Multi-Geo Search für große Städte
+- **ETG Region API hat Limits:** Nur ~500 Hotels für Istanbul, Geo API liefert 1700+
+- **3x3 Grid-Strategie:** 9 überlappende Geo-Queries bei Regions mit 3000+ Hotels (OpenSearch count)
+- **Deduplizierung per hotel_id:** Merge results from all grid cells
+- **Region IDs sind STRINGS aus API:** `parseInt()` beim Speichern als Number nötig
