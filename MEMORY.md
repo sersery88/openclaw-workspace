@@ -268,3 +268,18 @@ https://context7.com/api/v1/<id>?tokens=10000&topic=<topic>
 - **BACKEND_URL MUSS gesetzt sein** in `.env` für Webhook URLs
 - Ohne BACKEND_URL: Webhooks gehen an `localhost:8080` → Saferpay kann nicht erreichen!
 - **Saferpay bool-Strings:** API schickt manchmal `"YES"`/`"NO"` statt `true`/`false` → custom deserializer nötig
+
+### 2026-02-06 - Profile Page fetchProfile
+- **Profile Page muss fetchProfile() aufrufen** — nur localStorage reicht nicht!
+- Frontend-State kann veraltet sein → immer frische Daten vom Server holen
+- `useEffect` mit `[_hasHydrated, isAuthenticated, fetchProfile]` Dependencies
+
+### 2026-02-06 - Axum 0.8 Middleware
+- **`from_fn_with_state` funktioniert nicht** mit nested Routers ohne State
+- Workaround: Extension Layer oder direktes Routing
+- Besser: `tower-governor` für Rate-Limiting (TODO)
+
+### 2026-02-06 - Next.js Build Corruption
+- **"Client reference manifest does not exist"** → `.next` löschen, neu bauen
+- Passiert wenn Build während Laufzeit unterbrochen wurde
+- `rm -rf .next && npm run build` löst das Problem
