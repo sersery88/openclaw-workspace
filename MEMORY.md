@@ -231,3 +231,8 @@ https://context7.com/api/v1/<id>?tokens=10000&topic=<topic>
 ### 2026-02-05 (Abend) - Geo & Frontend Bugs
 - **geo_point Queries:** Range-Queries auf `location.lat`/`location.lon` funktionieren NICHT mit geo_point Mapping → `geo_bounding_box` oder `geo_distance` verwenden!
 - **Streaming State-Timing:** UI-State nie auf incomplete streaming data basieren — immer auf `isStreamingComplete` warten
+
+### 2026-02-06 - Verzeichnis-Verwechslung & Dependency Bugs
+- **KRITISCH:** Projekt liegt in `/root/ETG-Hotel-IBE/`, NICHT in `/root/.openclaw/workspace/`!
+- **ES Module TDZ:** Variable declarations müssen NACH allen imports kommen, nie dazwischen
+- **Minified Dependency Bugs:** Errors wie `Cannot access 'eq' before initialization` können aus npm packages kommen, nicht eigenem Code — Source Maps oder Dependency-Audit nötig
